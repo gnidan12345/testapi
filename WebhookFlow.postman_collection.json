@@ -1,0 +1,341 @@
+{
+	"info": {
+		"_postman_id": "2880bce5-a3fa-4d1b-b66c-4863587961d8",
+		"name": "WebhookFlow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "4051243"
+	},
+	"item": [
+		{
+			"name": "FlowSuccesfull",
+			"item": [
+				{
+					"name": "[201] Create webhook - all params random values success Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set('WebhookID',jsonData.Id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.year).to.eql(2022);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Id\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header",
+								"tokenName": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"{{$randomWords}}\", //string, name is a webhook user friendly identifier (required, unique in account)\r\n    \"Description\": \"{{$randomWords}}\", //string, description is a place to enter notes related to webhook (not required, not unique)\r\n    \"OutgoingUrls\": [\"https://{{$randomWord}}.com\",\r\n                  \"https://{{$randomWord}}.com\",\r\n                  \"https://{{$randomWord}}.com/blabla/blafdsf/fewfefefefefwefewfewfefef\"]//string, url address of the Webhook endpoint, must be https (required, unique in account)\r\n\r\n    \r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[200] Get webhook - all params Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.year).to.eql(2022);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks/{{WebhookID}}",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[200] Get webhooks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.year).to.eql(2022);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Update webhook - all params Sucess",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.year).to.eql(2022);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "yHaVEzQ5qy-2TrAw2mqgeH_yK_rKJq0UU8ageOcbt-HwED9ZskQRw3a_oUsg3oK7cY1crOGX7YgmMntcp4btiGGFL0XXwx_Ke8JBw-KVAT29TZKSMdCkoiXqTMloSYUqdxcpFrpRbaiREAMFNv15UQg0wmowGrGyHXTDZeeGMgwckE6uJnHBf6hMISUDY1VdiBtg4VrTtzUdpy6hjAoYHVnuuQBfnJnI7LNQCjhflFC8mJknBVC3YK5CZof-jesS_od1_ZiCef9BIuUmIJoBLOk5Bgw2mLM7rT5zKnUKm7z2r25kYzlq0_FvRw55G1llTL0sLmCfbUrVF3E1V6m1Y4P-bB7lVoZj-GrA9EIr-T4Dfb_s0FBZSZyb8hJpYCSl",
+								"addTokenTo": "header"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"{{$randomWords}}\", //string, name is a webhook user friendly identifier (required, unique in account)\r\n    \"Description\": \"{{$randomWords}}\", //string, description is a place to enter notes related to webhook (not required, not unique)\r\n    \"OutgoingUrls\": [\"https://{{$randomWord}}.com\",\r\n                  \"https://{{$randomWord}}.com\"\r\n                  ]//string, url address of the Webhook endpoint, must be https (required, unique in account)\r\n\r\n \r\n}\r\n\r\n\r\n                   \r\n                  \r\n\r\n \r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks/{{WebhookID}}",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[200] Delete webhook - succesfully deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// // var jsonData = pm.response.json();\r",
+									"// // pm.environment.set('id_movie',jsonData.id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.year).to.eql(2022);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks/{{WebhookID}}",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

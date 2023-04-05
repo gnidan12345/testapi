@@ -1,0 +1,531 @@
+{
+	"info": {
+		"_postman_id": "c69885f1-db87-48f2-8530-ba1a02c06693",
+		"name": "WebhookEventFlow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "4051243"
+	},
+	"item": [
+		{
+			"name": "FlowEvents",
+			"item": [
+				{
+					"name": "[201] Create webhook - all params random values success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set('WebhookID',jsonData.Id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.year).to.eql(2022);\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Id\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header",
+								"tokenName": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Name\": \"{{$randomWord}}\", //string, name is a webhook user friendly identifier (required, unique in account)\r\n    \"Description\": \"{{$randomWords}}\", //string, description is a place to enter notes related to webhook (not required, not unique)\r\n    \"OutgoingUrls\": [\"https://{{$randomWord}}.com\",\r\n                  \"https://{{$randomWord}}.com\",\r\n                  \"https://{{$randomWord}}.com/blabla/blafdsf/fewfefefefefwefewfewfefef\"]//string, url address of the Webhook endpoint, must be https (required, unique in account)\r\n\r\n    \r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Create webhookEvent -  Table.Update ,all params Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set('AccountId',jsonData.AccountId);\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set('EventUpdateId',jsonData.Id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify data\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.ObjectName).to.eql(\"TestCaspioData\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"EventType\": \"table.recordUpdate\", // string, (table.Insert, table.Update, table.Delete) required,\r\n\"ObjectName\": \"TestCaspioData\", //string required if eventType in (table.Insert, table.Update, table.Delete)\r\n\"ObjectFields\": \"first_name\", //string, not required  ?? \r\n\"CustomPayloadFields\": \"{'first_name': '[@field:first_name]','last_name':'[@field:last_name]', 'email':'[@field:email]','date':'[@field:Last_Modified]', 'Comments':'[@field:Field1]', 'Comments2':'[@field:Field2]', 'Comments3':'[@field:Field3]'}\", //string, not required\r\n\"enabled\": true  //bool, not required - true by default\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest//v2/outgoingWebhooks/{{WebhookID}}/events",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Create webhookEvent -  Table.Insert ,all params Copy 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('AccountId',jsonData.AccountId);\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set('EventInsertId',jsonData.Id);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.AccountId).to.eql(3);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"EventType\": \"table.recordInsert\", // string, (table.Insert, table.Update, table.Delete) required,\r\n\"ObjectName\": \"TestCaspioData\", //string required if eventType in (table.Insert, table.Update, table.Delete)\r\n\"ObjectFields\": \"\", //string, not required  ?? \r\n\"CustomPayloadFields\": \"{'first_name': '[@field:first_namej','last_name':'[@field:last_name]', 'email':'[@field:email','date':'[@field:Last_Modified]', 'Comments':'[@field:Field1]'}\",//string, not required\r\n\"enabled\": true  //bool, not required - true by default\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest//v2/outgoingWebhooks/{{WebhookID}}/events",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Create webhookEvent -  Table.Delete,all params Copy 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('AccountId',jsonData.AccountId);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.AccountId).to.eql(3);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"EventType\": \"table.recordDelete\", // string, (table.Insert, table.Update, table.Delete) required,\r\n\"ObjectName\": \"TestCaspioData\", //string required if eventType in (table.Insert, table.Update, table.Delete)\r\n\"ObjectFields\": \"\", //string, not required  ?? \r\n\"CustomPayloadFields\": \"{'Comments':'myComments'}\", //string, not required\r\n// \"additionalPayloadFields\": \"{'Key1': 'Value1', 'Key2': 'Value2'}\", //string, not required\r\n\"enabled\": true  //bool, not required - true by default\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest//v2/outgoingWebhooks/{{WebhookID}}/events",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Get webhook -   by webhookcode&eventcode Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('AccountId',jsonData.AccountId);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.AccountId).to.eql(3);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks/{{WebhookID}}/events/{{EventUpdateId}}",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Create webhook -  Table.Update ,with payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('AccountId',jsonData.AccountId);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.AccountId).to.eql(3);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header",
+								"tokenName": ""
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"EventType\": \"table.recordUpdate\", // string, (table.Insert, table.Update, table.Delete) required,\r\n\"ObjectName\": \"TestCaspioData\", //string required if eventType in (table.Insert, table.Update, table.Delete)\r\n\"ObjectFields\": \"first_name,email\", //string, not required \r\n// \"CustomPayloadFields\": \"{'first_name': '[@field:First_Name]','last_name':'[@field:Last_Name]', 'email':'[@field:Email]','date':'[@field:Last_Modified]', 'list':'[@field:list]', 'listNumbers':'[@field:listNumbers]', 'listData':'[@field:listData]', }\",  //string, not required\r\n\"enabled\": true  //bool, not required - true by default\r\n}\r\n\r\n\r\n// {\r\n//  eventType: string, (table.Insert, table.Update, table.Delete) required,\r\n//  objectId: int required\r\n//  objectFields: string, not required \r\n//  additionalPayloadFields: string, not required\r\n//  enabled: bool, not required - true by default\r\n// }\r\n// {\r\n\r\n//   \"EventType\": \"Table.Update\",\r\n\r\n//   \"ObjectName\": \"Test\",\r\n\r\n//   \"ObjectFields\": \"A\",\r\n\r\n//   \"AdditionalPayloadFields\": null,\r\n\r\n//   \"AdditionalBulkPayloadFields\": null,\r\n\r\n//   \"Enabled\": true\r\n\r\n// }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks/{{WebhookID}}/events/{{EventUpdateId}}",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Create webhook -  Table.Update ,adding payload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('WebhookCode',jsonData.Code);\r",
+									"\r",
+									"// var jsonData = pm.response.json();\r",
+									"// pm.environment.set('AccountId',jsonData.AccountId);\r",
+									"\r",
+									"\r",
+									"pm.test(\"verify response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"// pm.test(\"verify data\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.AccountId).to.eql(3);\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header",
+								"tokenName": ""
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"EventType\": \"table.recordInsert\", // string, (table.Insert, table.Update, table.Delete) required,\r\n\"ObjectName\": \"Employee\",\r\n\"ObjectFields\": \"\", //string, not required  \r\n\"CustomPayloadFields\": \"{'first_name': '[@field:first_name]','last_name':'[@field:last_name]', 'email':'[@field:email]','date':'[@field:Last_Modified]', 'Comments':'[@field:Field1]'}\",\r\n\"enabled\": true  //bool, not required - true by default\r\n}\r\n\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks/{{WebhookID}}/events/{{EventInsertId}}",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Create webhook -  Table.Update ,enabled false",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"addTokenTo": "header"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}/rest/v2/outgoingWebhooks/{{WebhookID}}/events/{{EventInsertId}}",
+						"description": "201 - \\[webhookName\\] created."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
